@@ -1,8 +1,18 @@
 #include <iostream>
-
+#include <stdio.h>
+#include <conio.h> 
+#include<windows.h>
 
 using namespace std;
-
+void gotoxy(int x,int y){
+    HANDLE hcon;  
+      hcon = GetStdHandle(STD_OUTPUT_HANDLE);  
+      COORD dwPos;  
+      dwPos.X = x;  
+      dwPos.Y= y;  
+      SetConsoleCursorPosition(hcon,dwPos);  
+  
+}
 int main()
 {
 //Muestra el contorno del menu principal
@@ -11,7 +21,7 @@ int main()
      for(int j=0;j<50;j++){
 
        if(i==0 or i==25- 1 or j==50- 1 or j==0  ){
-      
+        
            cout<<" *";
 
        }
@@ -21,10 +31,15 @@ int main()
            cout<<"  ";
 
        }
-
-           
-
     } 
+    cout<<endl;
+   
+ }  
+ //colocar opciones de menu
+ gotoxy(10,10);cout<<"Iniciar";
+    return 0;
+}
+
 
     cout<<endl;
 
