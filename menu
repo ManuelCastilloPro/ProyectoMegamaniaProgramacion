@@ -35,48 +35,40 @@ int main()
     cout<<endl;
    
  }  
- //colocar opciones de menu
- gotoxy(10,10);cout<<"Iniciar";
-    return 0;
-}
+  //colocar opciones de menu
+ 	
+ 	gotoxy(2,2);cout<<"      	    Iniciar"<<endl;
+ 	for(int i=0; i<25; i++){
+ 		cout<<" *";
+	 }
+ 	gotoxy(4,4);cout<<"	   	 Instrucciones"<<endl;
+ 	for(int i=0; i<25; i++){
+ 		cout<<" *";
+	 }
+ 	gotoxy(6,6);cout<<"	           Creditos"<<endl;
+ 	for(int i=0; i<25; i++){
+ 		cout<<" *";
+	 }
+ 	gotoxy(8,8);cout<<"	     Salir"<<endl;
+ 	for(int i=0; i<25; i++){
+ 		cout<<" *";
+	 }
 
-
-
-
-
-
-//triangulo
-//mostrar triangulo
-
-
-
-   
-
-    for(int x=0;x<height;x++){
-
-     for(int y=0;y<(height- x);y++){
-
-         
-
-          cout<<" ";
-
-    } 
-
-     for(int y=0;y<((2*x)- 1);y++){
-
-         
-
-          cout<<"*";
-
-    } 
-
-    
+	cout<<endl;
+	gotoxy(13,13);cout<<"          [*]"<<endl;
+	gotoxy(14,14);cout<<"        [***]"<<endl;             
+	gotoxy(15,15);cout<<"      [*****]"<<endl;
+	gotoxy(16,16);cout<<"   [*********]"<<endl;
+	gotoxy(17,17);cout<<" [___________]"<<endl;
+		
+      
 
          
 
     cout<<endl;
-
- }  
-
+    	return 0;
+	}
+	
+	
     
 
