@@ -39,3 +39,44 @@ int main()
  gotoxy(10,10);cout<<"Iniciar";
     return 0;
 }
+
+
+
+
+
+
+//triangulo
+//mostrar triangulo
+
+
+
+   
+
+    for(int x=0;x<height;x++){
+
+     for(int y=0;y<(height- x);y++){
+
+         
+
+          cout<<" ";
+
+    } 
+
+     for(int y=0;y<((2*x)- 1);y++){
+
+         
+
+          cout<<"*";
+
+    } 
+
+    
+
+         
+
+    cout<<endl;
+
+ }  
+
+    
+
