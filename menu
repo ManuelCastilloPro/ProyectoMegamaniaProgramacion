@@ -1,1 +1,33 @@
+#include <iostream>
 
+
+using namespace std;
+
+int main()
+{
+//Muestra el contorno del menu principal
+  for(int i=0;i<25;i++){
+
+     for(int j=0;j<50;j++){
+
+       if(i==0 or i==25- 1 or j==50- 1 or j==0  ){
+      
+           cout<<" *";
+
+       }
+
+       else{
+
+           cout<<"  ";
+
+       }
+
+           
+
+    } 
+
+    cout<<endl;
+
+ }  
+    return 0;
+}
