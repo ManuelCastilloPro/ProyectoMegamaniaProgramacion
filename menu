@@ -269,6 +269,7 @@ int main()
  }  
  bool finG=true;
  while(finG==true){
+ 	int puntos=0;
  	
   //colocar opciones de menu
   limites();
@@ -277,7 +278,7 @@ int main()
     
     list <Enemigo*> E;
     list <Enemigo*> :: iterator itE;
-    int puntos=0;
+
    
     bool fin=true;
     Nave nave(35,30,3);
@@ -324,7 +325,7 @@ switch(opcion){
    
     while(fin==true){
     	
-    	
+    	gotoxy(0,1);cout<<"PUNTOS:"<<puntos;
     	if (kbhit()){
     		char tecla=getch();
     		if(tecla=='x'){
@@ -360,7 +361,7 @@ switch(opcion){
 		   gotoxy((*itE)->X(),(*itE)->Y());cout<<" ";
 		   delete(*itE);
 		   itE=E.erase(itE);
-		   puntos=puntos+1;
+		   puntos+=5;
 		   
 		   }
 		
