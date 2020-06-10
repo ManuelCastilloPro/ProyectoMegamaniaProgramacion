@@ -1,21 +1,254 @@
+
+
 #include <iostream>
 #include <stdio.h>
-#include <conio.h> 
+#include <conio.h>
 #include <windows.h>
+#include <stdlib.h>
+#include <list>
+
+#define arriba 72
+#define abajo 80
+#define izquierda 75
+#define derecha 77
 
 using namespace std;
+
 void gotoxy(int x,int y){
-    HANDLE hcon;  
-      hcon = GetStdHandle(STD_OUTPUT_HANDLE);  
-      COORD dwPos;  
-      dwPos.X = x;  
-      dwPos.Y= y;  
-      SetConsoleCursorPosition(hcon,dwPos);  
-  
+    HANDLE hcon;
+    hcon = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD dwPos;
+    dwPos.X = x;
+    dwPos.Y= y;
+    SetConsoleCursorPosition(hcon,dwPos);
+
 }
+//crear flecha de opciones
+class Flecha{
+	private:
+	int x;
+	int y;
+	public:
+		Flecha(int _x,int _y);
+		void mover();
+	    void crear();
+	    void borrar();
+	    int Y(){
+	    	return y;
+		};
+};
+
+void Flecha::crear(){
+	gotoxy(x+7,y+2);cout<<"-";
+	gotoxy(x+8,y+2);cout<<">";
+}
+void Flecha::borrar(){
+	gotoxy(x+7,y+2);cout<<"  ";
+}
+Flecha::Flecha(int _x,int _y){
+}
+void Flecha::mover(){
+	char tecla = getch();
+        borrar();
+        if(tecla == arriba ){
+            y--;
+        }
+        if(tecla ==abajo){
+            y++;
+        }
+        
+        crear();
+        
+    }
+
+// crear disparos
+class Disparo{
+	private:
+	int x;
+	int y;
+	public:
+		Disparo(int _x,int _y);
+		void mover();
+		int X(){
+			return x;
+		}
+		int Y(){
+			return y;
+		}
+	
+};
+
+Disparo::Disparo(int _x, int _y){
+	x=_x;
+	y=_y;
+	
+}
+void Disparo::mover(){
+	gotoxy(x,y);cout<<" ";
+	if(y>4){
+		y--;
+		gotoxy(x,y);cout<<".";
+	}
+}
+//limites del escenario
+void limites(){
+    for(int i=2;i<78;i++){
+        gotoxy(i,2);cout<<"*";
+        gotoxy(i,33);cout<<"*";
+    }
+
+}
+
+
+void eliminarCursor(){
+    HANDLE hcon;
+    hcon = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cci;
+    cci.dwSize=2;
+    cci.bVisible=FALSE;
+    SetConsoleCursorInfo (hcon,&cci);
+}
+//crear nave
+class Nave{
+private:
+    int x,y;
+    int vida;
+public:
+    Nave(int _x,int _y,int _vida);
+    void crear();
+    void borrar();
+    void mover();
+    void vidaF();
+    void saludV();
+    void vid(){
+    	vida--;
+	};
+    int X(){
+    	return x;
+	};
+    int Y(){
+    	return y;
+	};
+    
+
+};
+
+void Nave::crear(){
+    gotoxy (x,y); cout<<"  []";
+    gotoxy (x,y+1);cout<<" [**]";
+    gotoxy (x,y+2);cout<<"[****]";
+}
+void Nave::borrar(){
+    gotoxy (x,y);cout<<"       ";
+    gotoxy (x,y+1);cout<<"       ";
+    gotoxy (x,y+2);cout<<"       ";
+}
+
+void Nave::saludV(){
+    if(vida==0){
+        borrar();
+        gotoxy(x,y);cout<<" x x";
+        gotoxy(x,y+1);cout<<"  x " ;
+        gotoxy(x,y+2);cout<<" x  x";
+
+        Sleep(800);
+
+
+        crear();
+        vida=3;
+
+    }
+}
+
+void Nave::vidaF(){
+    gotoxy(3,34);cout<<"vida:";
+    gotoxy(7,34);cout<<"      ";
+
+    for(int i=0;i<vida;i++){
+        gotoxy(9+i,34);cout<<"=";
+    }
+}
+void Nave::mover(){
+    if(kbhit()){
+        char tecla = getch();
+        borrar();
+        if(tecla == izquierda && x>3){
+            x--;
+        }
+        if(tecla ==derecha && x<70){
+            x++;
+        }
+        
+        crear();
+        vidaF();
+    }
+}
+Nave::Nave (int _x,int _y,int _vida){
+    x=_x;
+    y=_y;
+    vida=_vida;
+}
+
+//creacion de enemigo
+class Enemigo{
+private:
+    int x;
+    int y;
+public:
+    Enemigo(int _x,int _y);
+    void crear();
+    void mover();
+    void colision(class Nave &nave);
+    int X(){
+			return x;
+		}
+	int Y(){
+			return y;
+		}
+
+};
+
+void Enemigo::colision(class Nave &nave){
+	
+if(x >= nave.X() && x <nave.X()+6 && y >= nave.Y() && y <= nave.Y())
+  {
+   nave.vid();
+   nave.crear(); 
+   nave.vidaF();
+    x=rand()%71+4;
+        y=4;
+  }
+}
+
+
+
+Enemigo::Enemigo(int _x,int _y){
+    x=_x;
+    y=_y;
+
+}
+void Enemigo::crear(){
+    gotoxy(x,y);cout<<"o";
+}
+void Enemigo::mover(){
+    gotoxy(x,y);cout<<" ";
+    y++;
+
+    if(y>32){
+        x=rand()%71+4;
+        y=4;
+    }
+    crear();
+    Sleep(1);
+   
+}
+
 int main()
 {
-//Muestra el contorno del menu principal
+	eliminarCursor();
+	//creacion de menu
+	
+	//Muestra el contorno del menu principal
   for(int i=0;i<25;i++){
 
      for(int j=0;j<25;j++){
@@ -35,37 +268,153 @@ int main()
     cout<<endl;
    
  }  
-  //colocar opciones de menu
+ bool finG=true;
+ while(finG==true){
  	
- 	gotoxy(2,2);cout<<"      	    Iniciar"<<endl;
+  //colocar opciones de menu
+  limites();
+    list <Disparo*> D;
+    list <Disparo*> :: iterator it;
+    
+    list <Enemigo*> E;
+    list <Enemigo*> :: iterator itE;
+    int puntos=0;
+   
+    bool fin=true;
+    Nave nave(35,30,3);
+ 	
+ 	gotoxy(2,2);cout<<"      	    1-Iniciar"<<endl;
  	for(int i=0; i<25; i++){
  		cout<<" *";
 	 }
- 	gotoxy(4,4);cout<<"	   	 Instrucciones"<<endl;
+ 	gotoxy(4,4);cout<<"	   	2- Instrucciones"<<endl;
  	for(int i=0; i<25; i++){
  		cout<<" *";
 	 }
- 	gotoxy(6,6);cout<<"	           Creditos"<<endl;
+ 	gotoxy(6,6);cout<<"	          3- Creditos"<<endl;
  	for(int i=0; i<25; i++){
  		cout<<" *";
 	 }
- 	gotoxy(8,8);cout<<"	     Salir"<<endl;
+ 	gotoxy(8,8);cout<<"	    4- Salir"<<endl;
  	for(int i=0; i<25; i++){
  		cout<<" *";
 	 }
-
-	cout<<endl;
+    int opcion=0;
+    
 	gotoxy(13,13);cout<<"          [*]"<<endl;
 	gotoxy(14,14);cout<<"        [***]"<<endl;             
 	gotoxy(15,15);cout<<"      [*****]"<<endl;
 	gotoxy(16,16);cout<<"   [*********]"<<endl;
 	gotoxy(17,17);cout<<" [___________]"<<endl;
+    cout<<endl<<"   Ingrese opcion: ";
+	cin>>opcion;
+	
+	
+	
+	
+switch(opcion){
+	case 1:
+		system("cls");
+		    //juego
+    
+    for(int i=0;i<8;i++){
+	   	E.push_back(new Enemigo(rand() %75 +3 ,rand()%5+4));
+	   }
+    nave.crear();
+    nave.vidaF();
+   
+    while(fin==true){
+    	
+    	
+    	if (kbhit()){
+    		char tecla=getch();
+    		if(tecla=='x'){
+    			D.push_back(new Disparo(nave.X()+2 ,nave.Y()-1));
+    			
+			}
+		}
+		
+		for(it =D.begin();it !=D.end();it++){
+			(*it)->mover();
+		
+		}
+		
+		for(itE =E.begin();itE !=E.end();itE++){
+			(*itE)->mover();
+			
+		    (*itE)->colision(nave);
+		    
+		}
+		
+	   for(itE =E.begin();itE !=E.end();itE++){
+		   	for(it =D.begin();it !=D.end();it++){
+	       if((*itE)->X() == (*it)->X() && ((*itE)->Y() +1 ==(*it)->Y() || (*itE)->Y() == (*it)->Y())){
+		   
+	       
+		   gotoxy( (*it)->X(), (*it) -> Y());cout<<" ";
+		   delete(*it);
+		   it=D.erase(it);
+		   
+		   
+		   E.push_back(new Enemigo(rand() %75 +3 ,rand()%5+4));
+		   
+		   gotoxy((*itE)->X(),(*itE)->Y());cout<<" ";
+		   delete(*itE);
+		   itE=E.erase(itE);
+		   puntos=puntos+1;
+		   
+		   }
+		
+		}	
+		    
+		}
+        nave.mover();
+        nave.saludV();
+        
+        Sleep(20);
+    }
+    break;
+    case 2:
+    	system("cls");
+    	cout<<"Mueve las flechas de izquierda a derecha para evitar a los enemigos"<<endl<<"Utiliza la tecla x para disparar";
+    	cout<<endl<<endl<<endl<<endl<<endl;
+    	cout<<"Presiona la tecla x y enter para volver al menu";
+    	cin>>opcion;
+    	
+    	system("cls");
+    	
+    	break;
+    	
+    	case 3:
+    	system("cls");
+    	cout<<"Jesus Alonso Geraldo Hernandez"<<endl;
+    	cout<<endl<<endl<<endl<<endl<<endl;
+    	cout<<"Presiona la tecla x y enter para volver al menu";
+    	cin>>opcion;
+    	
+    	system("cls");
+    	
+    	break;
+    	
+    	case 4:
+    		finG=false;
+    		break;
+		}
+		
+		}
+	cout<<endl;
+	
+	
+	
 		
       
 
-         
 
-    cout<<endl;
-    	return 0;
-	}
-	
+
+
+
+   
+
+
+    return 0;
+}
