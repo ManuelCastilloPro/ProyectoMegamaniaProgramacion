@@ -1,5 +1,4 @@
 
-
 #include <iostream>
 #include <stdio.h>
 #include <conio.h>
@@ -387,7 +386,7 @@ switch(opcion){
     	
     	case 3:
     	system("cls");
-    	cout<<"Jesus Alonso Geraldo Hernandez"<<endl;
+    	cout<<"Jesus Alonso Geraldo Hernandez"<<endl<<"Manuel Adolfo Castillo Ojeda";
     	cout<<endl<<endl<<endl<<endl<<endl;
     	cout<<"Presiona la tecla x y enter para volver al menu";
     	cin>>opcion;
